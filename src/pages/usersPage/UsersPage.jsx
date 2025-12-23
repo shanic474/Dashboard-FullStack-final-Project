@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UsersLayout from "./UsersLayout";
 import UsersTable from "./UsersTable";
-import UserModal from "../../components/modal/UserModal";
+import Modal from "../../components/modal/Modal";
 import { FetchUsers } from "./hooks/FetchUsers";
 
 const UsersPage = () => {
@@ -33,7 +33,7 @@ const UsersPage = () => {
   return (
     <UsersLayout>
       <UsersTable users={users} onViewUser={handleViewUser} />
-      <UserModal 
+      <Modal 
         user={selectedUser} 
         isOpen={isModalOpen} 
         onClose={handleCloseModal} 

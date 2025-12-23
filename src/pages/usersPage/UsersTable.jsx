@@ -30,7 +30,7 @@ const UsersTable = ({ users, onViewUser }) => {
           </thead>
           <tbody className="divide-y divide-amber-500/20">
             {users.map((user) => {
-              return <UsersRow key={user._id} user={user} getStatusColor={getStatusColor} onView={onViewUser} />
+              return <UsersRow user={user} getStatusColor={getStatusColor} />
             })}
           </tbody>
         </table>
