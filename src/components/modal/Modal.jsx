@@ -10,11 +10,15 @@ const Modal = () => {
 
   // Determine which data to use based on modal type
   const modalData = modalType === 'user' ? selectedUser : selectedProduct;
+  console.log(modalData);
+  const modalDataId = modalType === 'user' ? modalData?._id : modalData?._id;
+  console.log(modalDataId);
   
   if (!modalActive || !modalData) return null;
 
   const handleClose = () => {
-    closeModal();
+    closeModal();    
+
     if (modalType === 'user') {
       clearSelectedUser();
     } else {
@@ -22,6 +26,19 @@ const Modal = () => {
     }
     setIsModalEditable(false);
   };
+
+  async function handleSubmit(e){
+    e.preventDefault();
+    try {
+     console.log(e);
+     console.log("submit");
+        
+
+    } catch (error) {
+      console.log("error updating data", error);
+      
+    }
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -42,6 +59,8 @@ const Modal = () => {
               onClose={handleClose} 
               isModalEditable={isModalEditable} 
               setIsModalEditable={setIsModalEditable} 
+              handleSubmit={handleSubmit}
+              modalDataId={modalDataId}
             />
           </div>
         </div>

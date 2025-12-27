@@ -1,3 +1,4 @@
+import { Formik } from "formik";
 import ModalHeader from "./modalHeader/ModalHeader";
 import ModalBody from "./modalBody/ModalBody";
 import ModalFooter from "./modalFooter/ModalFooter";
@@ -11,24 +12,38 @@ const ModalContent = ({
   onClose,
   isModalEditable,
   setIsModalEditable,
+  handleSubmit,
+  modalDataId,
 }) => {
   return (
     <>
-      <ModalHeader data={data} type={type} onClose={onClose} />
-      <ModalBody>
-        {type === "user" ? (
-          <UserFields user={data} isModalEditable={isModalEditable} />
-        ) : (
-          <ProductFields product={data} isModalEditable={isModalEditable} />
+      <Formik>
+        {({ handleSubmit }) => (
+          <form>
+            <ModalHeader data={data} type={type} onClose={onClose} />
+            <ModalBody>
+              {type === "user" ? (
+                <UserFields user={data} isModalEditable={isModalEditable} />
+              ) : (
+                <ProductFields
+                  product={data}
+                  isModalEditable={isModalEditable}
+                />
+              )}
+            </ModalBody>
+            <ModalFooter>
+              <ModalActions
+                onClose={onClose}
+                isModalEditable={isModalEditable}
+                setIsModalEditable={setIsModalEditable}
+                handleSubmit={handleSubmit}
+                modalDataId={modalDataId}
+                type={type}
+              />
+            </ModalFooter>
+          </form>
         )}
-      </ModalBody>
-      <ModalFooter>
-        <ModalActions
-          onClose={onClose}
-          isModalEditable={isModalEditable}
-          setIsModalEditable={setIsModalEditable}
-        />
-      </ModalFooter>
+      </Formik>
     </>
   );
 };
