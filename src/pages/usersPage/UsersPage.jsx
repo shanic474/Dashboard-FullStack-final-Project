@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import UsersLayout from "./UsersLayout";
 import UsersTable from "./UsersTable";
 import Modal from "../../components/modal/Modal";
-import { FetchUsers } from "./hooks/FetchUsers";
+import { FetchData } from "../../components/hooks/FetchData.jsx";
 
 const UsersPage = () => {
-  const { getAllUsers } = FetchUsers();
+  const { getAllData } = FetchData('users');
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const FetchUsers = async () => {
-      const usersData = await getAllUsers();
+    const FetchData = async () => {
+      const usersData = await getAllData();
       setUsers(usersData);
       console.log(usersData);
       console.table(usersData);
     };
-    FetchUsers();
+    FetchData();
   }, []);
 
   const handleViewUser = (user) => {

@@ -6,5 +6,7 @@ export const useSelectionsStore = create((set) => ({
    
     setSelectedUser: (selectedUser) => set({ selectedUser }),
     clearSelectedUser: () => set({ selectedUser: null }),
+    setSelectedProduct: (selectedProduct) => set({ selectedProduct }),
+    clearSelectedProduct: () => set({ selectedProduct: null }),
   }));
   

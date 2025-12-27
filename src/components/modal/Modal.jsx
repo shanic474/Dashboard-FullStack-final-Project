@@ -4,15 +4,23 @@ import ModalContent from './ModalContent.jsx';
 import { useState } from 'react';
 
 const Modal = () => {
-  const { modalActive, closeModal } = useModalStore();
-  const { selectedUser, clearSelectedUser } = useSelectionsStore();
-  const [isModalEditable, setIsModalEditable]= useState(null);
+  const { modalActive, modalType, closeModal } = useModalStore();
+  const { selectedUser, selectedProduct, clearSelectedUser, clearSelectedProduct } = useSelectionsStore();
+  const [isModalEditable, setIsModalEditable] = useState(false);
 
-  if (!modalActive || !selectedUser) return null;
+  // Determine which data to use based on modal type
+  const modalData = modalType === 'user' ? selectedUser : selectedProduct;
+  
+  if (!modalActive || !modalData) return null;
 
   const handleClose = () => {
     closeModal();
-    clearSelectedUser();
+    if (modalType === 'user') {
+      clearSelectedUser();
+    } else {
+      clearSelectedProduct();
+    }
+    setIsModalEditable(false);
   };
 
   return (
@@ -28,7 +36,13 @@ const Modal = () => {
 
           {/* Scrollable content */}
           <div className="relative z-10 p-6 overflow-y-auto h-full">
-            <ModalContent user={selectedUser} onClose={handleClose} isModalEditable={isModalEditable} setIsModalEditable={setIsModalEditable} />
+            <ModalContent 
+              data={modalData} 
+              type={modalType}
+              onClose={handleClose} 
+              isModalEditable={isModalEditable} 
+              setIsModalEditable={setIsModalEditable} 
+            />
           </div>
         </div>
       </div>

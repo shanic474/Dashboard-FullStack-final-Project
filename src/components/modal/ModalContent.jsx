@@ -1,19 +1,33 @@
-import ModalHeader from './modalHeader/ModalHeader';
-import ModalBody from './modalBody/ModalBody';
-import ModalFooter from './modalFooter/ModalFooter';
-import UserFields from './modalBody/UserFields';
-import UserActions from './modalFooter/UserActions';
+import ModalHeader from "./modalHeader/ModalHeader";
+import ModalBody from "./modalBody/ModalBody";
+import ModalFooter from "./modalFooter/ModalFooter";
+import UserFields from "./modalBody/UserFields";
+import ProductFields from "./modalBody/ProductFields";
+import ModalActions from "./modalFooter/ModalActions";
 
-const ModalContent = ({ user, onClose ,isModalEditable,setIsModalEditable}) => {
-    
+const ModalContent = ({
+  data,
+  type,
+  onClose,
+  isModalEditable,
+  setIsModalEditable,
+}) => {
   return (
     <>
-      <ModalHeader user={user} onClose={onClose} />
+      <ModalHeader data={data} type={type} onClose={onClose} />
       <ModalBody>
-        <UserFields user={user} isModalEditable={isModalEditable} />
+        {type === "user" ? (
+          <UserFields user={data} isModalEditable={isModalEditable} />
+        ) : (
+          <ProductFields product={data} isModalEditable={isModalEditable} />
+        )}
       </ModalBody>
       <ModalFooter>
-        <UserActions onClose={onClose} setIsModalEditable={setIsModalEditable} />
+        <ModalActions
+          onClose={onClose}
+          isModalEditable={isModalEditable}
+          setIsModalEditable={setIsModalEditable}
+        />
       </ModalFooter>
     </>
   );
