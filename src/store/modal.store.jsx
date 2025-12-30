@@ -6,4 +6,5 @@ export const useModalStore = create((set) => ({
   
   openModal: (type) => set({ modalActive: true, modalType: type }),
   closeModal: () => set({ modalActive: false, modalType: null }),
+  setIsModalEditable: (value)=>set({isModalEditable: value})
 }));

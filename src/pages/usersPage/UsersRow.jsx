@@ -4,6 +4,8 @@ import {useModalStore} from "../../store/modal.store.jsx";
 const UsersRow = ({ user, getStatusColor }) => {
   const setSelectedUser = useSelectionsStore((state)=>state.setSelectedUser);
   const openModal = useModalStore((state)=>state.openModal);
+  const {setIsModalEditable } = useModalStore();
+
 
   return (
     <tr key={user.id} className="hover:bg-[#1a1a1a]/50 transition-colors">
@@ -31,7 +33,15 @@ const UsersRow = ({ user, getStatusColor }) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
           </button>
-          <button className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-sm hover:bg-amber-500/20 transition-all" title="Edit">
+          <button 
+          className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-sm hover:bg-amber-500/20 transition-all" 
+          title="Edit"
+          onClick = {()=>{
+            setSelectedUser(user);
+            setIsModalEditable(true);
+            openModal('user');
+            }}
+            >  
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>

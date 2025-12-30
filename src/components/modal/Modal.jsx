@@ -1,25 +1,35 @@
-import { useModalStore } from '../../store/modal.store.jsx';
-import { useSelectionsStore } from '../../store/selections.store.jsx';
-import ModalContent from './ModalContent.jsx';
-import { useState } from 'react';
+import { useModalStore } from "../../store/modal.store.jsx";
+import { useSelectionsStore } from "../../store/selections.store.jsx";
+import ModalContent from "./ModalContent.jsx";
+import { useState } from "react";
 
 const Modal = () => {
-  const { modalActive, modalType, closeModal } = useModalStore();
-  const { selectedUser, selectedProduct, clearSelectedUser, clearSelectedProduct } = useSelectionsStore();
-  const [isModalEditable, setIsModalEditable] = useState(false);
+  const {
+    modalActive,
+    modalType,
+    closeModal,
+    isModalEditable,
+    setIsModalEditable,
+  } = useModalStore();
+  const {
+    selectedUser,
+    selectedProduct,
+    clearSelectedUser,
+    clearSelectedProduct,
+  } = useSelectionsStore();
 
   // Determine which data to use based on modal type
-  const modalData = modalType === 'user' ? selectedUser : selectedProduct;
+  const modalData = modalType === "user" ? selectedUser : selectedProduct;
   console.log(modalData);
-  const modalDataId = modalType === 'user' ? modalData?._id : modalData?._id;
+  const modalDataId = modalType === "user" ? modalData?._id : modalData?._id;
   console.log(modalDataId);
-  
+
   if (!modalActive || !modalData) return null;
 
   const handleClose = () => {
-    closeModal();    
+    closeModal();
 
-    if (modalType === 'user') {
+    if (modalType === "user") {
       clearSelectedUser();
     } else {
       clearSelectedProduct();
@@ -27,22 +37,19 @@ const Modal = () => {
     setIsModalEditable(false);
   };
 
-  async function handleSubmit(e){
+  async function handleSubmit(e) {
     e.preventDefault();
     try {
-     console.log(e);
-     console.log("submit");
-        
-
+      console.log(e);
+      console.log("submit");
     } catch (error) {
       console.log("error updating data", error);
-      
     }
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl mx-4 max-h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="relative w-full max-w-2xl my-8">
         {/* Modal Frame */}
         <div className="relative bg-gray-900 border border-amber-500/30 rounded-lg shadow-xl overflow-hidden flex flex-col h-full">
           {/* Optional corner accents */}
@@ -52,13 +59,13 @@ const Modal = () => {
           <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-amber-500/40"></div>
 
           {/* Scrollable content */}
-          <div className="relative z-10 p-6 overflow-y-auto h-full">
-            <ModalContent 
-              data={modalData} 
+          <div className="relative z-10 max-h-[calc(100vh-4rem)] overflow-y-auto">
+            <ModalContent
+              data={modalData}
               type={modalType}
-              onClose={handleClose} 
-              isModalEditable={isModalEditable} 
-              setIsModalEditable={setIsModalEditable} 
+              onClose={handleClose}
+              isModalEditable={isModalEditable}
+              setIsModalEditable={setIsModalEditable}
               handleSubmit={handleSubmit}
               modalDataId={modalDataId}
             />

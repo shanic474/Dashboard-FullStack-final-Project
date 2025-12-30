@@ -4,6 +4,7 @@ import {useModalStore} from "../../store/modal.store.jsx";
 const ProductRow = ({ product, index }) => {
   const setSelectedProduct = useSelectionsStore((state) => state.setSelectedProduct);
   const openModal = useModalStore((state) => state.openModal);
+  const {setIsModalEditable } = useModalStore();
   const getStatusColor = (status) => {
     return status === "Active"
       ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
@@ -73,6 +74,12 @@ const ProductRow = ({ product, index }) => {
           <button
             className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-sm hover:bg-amber-500/20 transition-all"
             title="Edit"
+            onClick = {()=>{
+            setSelectedProduct(product);
+            setIsModalEditable(true);
+            openModal('product'); 
+
+            }}
           >
             <svg
               className="w-4 h-4"
@@ -112,4 +119,4 @@ const ProductRow = ({ product, index }) => {
   );
 };
 
-export default ProductRow;
+export default ProductRow;
