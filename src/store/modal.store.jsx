@@ -1,10 +1,26 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export const useModalStore = create((set) => ({
-  modalActive: false,
-  modalType: null, // 'user' or 'product'
-  
-  openModal: (type) => set({ modalActive: true, modalType: type }),
-  closeModal: () => set({ modalActive: false, modalType: null }),
-  setIsModalEditable: (value)=>set({isModalEditable: value})
+  modalActive: false,       // is modal open?
+  modalType: null,          // 'user' or 'product'
+  isModalEditable: false,   // editable mode
+
+  // Open modal
+  openModal: (type, editable = false) =>
+    set({
+      modalActive: true,
+      modalType: type,
+      isModalEditable: editable,
+    }),
+
+  // Close modal
+  closeModal: () =>
+    set({
+      modalActive: false,
+      modalType: null,
+      isModalEditable: false,
+    }),
+
+  // Set editable flag
+  setIsModalEditable: (value) => set({ isModalEditable: value }),
 }));
