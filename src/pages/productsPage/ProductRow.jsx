@@ -1,10 +1,12 @@
-import {useSelectionsStore} from "../../store/selections.store.jsx";
-import {useModalStore} from "../../store/modal.store.jsx";
+import { useSelectionsStore } from "../../store/selections.store.jsx";
+import { useModalStore } from "../../store/modal.store.jsx";
 
 const ProductRow = ({ product, index }) => {
-  const setSelectedProduct = useSelectionsStore((state) => state.setSelectedProduct);
+  const setSelectedProduct = useSelectionsStore(
+    (state) => state.setSelectedProduct,
+  );
   const openModal = useModalStore((state) => state.openModal);
-  const {setIsModalEditable } = useModalStore();
+  const { setIsModalEditable } = useModalStore();
   const getStatusColor = (status) => {
     return status === "Active"
       ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
@@ -16,8 +18,12 @@ const ProductRow = ({ product, index }) => {
       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
         {index}
       </td>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-        {product.product_image}
+      <td className="px-6 py-4 whitespace-nowrap">
+        <img
+          src={product.product_image}
+          alt={product.product_name}
+          className="w-16 h-16 object-cover rounded-sm"
+        />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-light text-white">
         {product.product_name}
@@ -34,7 +40,7 @@ const ProductRow = ({ product, index }) => {
       <td className="px-6 py-4 whitespace-nowrap">
         <span
           className={`px-2 py-1 text-xs font-light rounded-sm ${getStatusColor(
-            product.status
+            product.status,
           )}`}
         >
           {product.status}
@@ -47,8 +53,7 @@ const ProductRow = ({ product, index }) => {
             title="View"
             onClick={() => {
               setSelectedProduct(product);
-              openModal('product');              
-                          
+              openModal("product");
             }}
           >
             <svg
@@ -74,11 +79,10 @@ const ProductRow = ({ product, index }) => {
           <button
             className="p-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-sm hover:bg-amber-500/20 transition-all"
             title="Edit"
-            onClick = {()=>{
-            setSelectedProduct(product);
-            setIsModalEditable(true);
-            openModal('product'); 
-
+            onClick={() => {
+              setSelectedProduct(product);
+              setIsModalEditable(true);
+              openModal("product");
             }}
           >
             <svg
@@ -119,4 +123,4 @@ const ProductRow = ({ product, index }) => {
   );
 };
 
-export default ProductRow;
+export default ProductRow;

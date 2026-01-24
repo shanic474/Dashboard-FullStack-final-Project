@@ -1,4 +1,6 @@
+import CategorySelect from "./CategorySelect.jsx";
 import EditableInput from "./EditableInput.jsx";
+
 
 const ProductFields = ({ product, isModalEditable }) => {
   const getStockColor = (status) =>
@@ -100,7 +102,7 @@ const ProductFields = ({ product, isModalEditable }) => {
             <label className="text-xs font-light text-gray-500 uppercase tracking-wide block mb-0.5 sm:mb-1">
               Category
             </label>
-            <EditableInput
+            <CategorySelect
               name="product_category"
               isEditable={isModalEditable}
             />

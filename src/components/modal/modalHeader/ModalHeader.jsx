@@ -1,5 +1,8 @@
-const ModalHeader = ({ data, type, onClose }) => {
+const ModalHeader = ({ data, type, onClose, isCreateMode }) => {
   const getInitial = () => {
+    if (isCreateMode) {
+      return '+';
+    }
     if (type === 'user') {
       return data.user_name ? data.user_name.charAt(0).toUpperCase() : 'U';
     } else {
@@ -8,6 +11,9 @@ const ModalHeader = ({ data, type, onClose }) => {
   };
 
   const getTitle = () => {
+    if (isCreateMode) {
+      return type === 'user' ? 'New User' : 'New Product';
+    }
     if (type === 'user') {
       return data.user_name || 'N/A';
     } else {
@@ -16,6 +22,9 @@ const ModalHeader = ({ data, type, onClose }) => {
   };
 
   const getSubtitle = () => {
+    if (isCreateMode) {
+      return type === 'user' ? 'Create User Profile' : 'Create Product';
+    }
     return type === 'user' ? 'User Profile' : 'Product Details';
   };
 

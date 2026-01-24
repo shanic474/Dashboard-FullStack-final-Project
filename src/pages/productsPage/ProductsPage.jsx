@@ -4,12 +4,18 @@ import { useState, useEffect } from "react";
 import ProductsHeader from "./ProductsHeader.jsx";
 import ProductsLayout from "./ProductsLayout.jsx";
 import ProductsTable from "./ProductsTable.jsx";
-import Modal from "../../components/modal/Modal.jsx"
+import Modal from "../../components/modal/Modal.jsx";
+import { useCategoriesStore } from "../../store/categories.store.jsx";
+import { useProductsStore } from "../../store/products.store.jsx";
 
 const ProductsPage = () => {
   const { getAllData } = FetchData("products");
-  const [products, setProducts] = useState([]);
+  const categories = useCategoriesStore((state) => state.categories);
+  const products = useProductsStore((state) => state.products);
+  const setProducts = useProductsStore((state) => state.setProducts);
+  const [refreshProducts, setRefreshProducts] = useState(false);
 
+  console.log("categories are: ", categories);
 
   //
   const [users, setUsers] = useState([]);
@@ -23,9 +29,11 @@ const ProductsPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const { getAllData } = FetchData("products");
       const productsData = await getAllData();
       setProducts(productsData);
     };
+
     fetchProducts();
   }, []);
 
@@ -34,20 +42,25 @@ const ProductsPage = () => {
     console.log(products);
   }, [products]);
 
-  return (
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productsData = await getAllData();
+      setProducts(productsData);
+    };
 
-    <div className="min-h-screen bg-[#1a1a1a] flex">
-      <Sidebar />
-      <div className="flex-1 ml-64">
-        <ProductsTable products={products} />
-        <Modal
-          // user={selectedUser} 
-          // isOpen={isModalOpen} 
-          // onClose={handleCloseModal} 
-        />
-        <ProductsLayout />
-      </div>
-    </div>
+    fetchProducts();
+  }, [refreshProducts]);
+
+  return (
+     <ProductsLayout>
+      <ProductsTable products={products} />
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onDataChange={() => setRefreshProducts((prev) => !prev)}
+      />
+    </ProductsLayout>
   );
 };
 

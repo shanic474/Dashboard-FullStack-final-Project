@@ -8,6 +8,7 @@ const Modal = () => {
   const closeModal = useModalStore((s) => s.closeModal);
   const isModalEditable = useModalStore((s) => s.isModalEditable);
   const setIsModalEditable = useModalStore((s) => s.setIsModalEditable);
+  const isCreateMode = useModalStore((s) => s.isCreateMode);
 
   const selectedUser = useSelectionsStore((s) => s.selectedUser);
   const selectedProduct = useSelectionsStore((s) => s.selectedProduct);
@@ -15,7 +16,10 @@ const Modal = () => {
   const clearSelectedProduct = useSelectionsStore((s) => s.clearSelectedProduct);
 
   const modalData = modalType === "user" ? selectedUser : selectedProduct;
-  if (!modalActive || !modalData) return null;
+
+  // In create mode, we don't need existing data
+  if (!modalActive) return null;
+  if (!isCreateMode && !modalData) return null;
 
   const handleClose = () => {
     closeModal();
@@ -24,7 +28,7 @@ const Modal = () => {
     else clearSelectedProduct();
   };
 
-  const modalDataId = modalData._id;
+  const modalDataId = modalData?._id;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
@@ -37,6 +41,7 @@ const Modal = () => {
               modalDataId={modalDataId}
               isModalEditable={isModalEditable}
               setIsModalEditable={setIsModalEditable}
+              isCreateMode={isCreateMode}
               onClose={handleClose}
             />
           </div>
